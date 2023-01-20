@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="keywords" content="Pedido de sorrentinos, Variedades de sorrentinos, Precio de sorrentinos, Pago.">
+  <!--Favicom-->
+  <link rel="shortcut icon"
+    href="https://res.cloudinary.com/marievillagran/image/upload/v1661629519/Proyecto/logo_uferhq.png">
+  <!--Bootstrap CSS-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <!--Bootstrap ICON-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <!--Font awesome CDS link-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="estilos.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <!--Para el envio del mail confirmando la compra-->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+  <script type="text/javascript">
+    emailjs.init('lPdKvtdccBs8Ln1eo')
+  </script>
+  <title>Pastas Artesanales</title>
+</head>
+
+<body>
+  <!--Inicio Barra Redes Sociales-->
+  <div class="social">
+    <ul>
+      <li><a href="" class="facebook" target="_self"><i class="fa-brands fa-square-facebook"></i></a></li>
+      <li><a href="" class="instagram" target="_self"><i class="fa-brands fa-instagram"></i></a></li>
+      <li><a href="" class="whatsapp" target="_self"><i class="fa-brands fa-whatsapp"></i></a></li>
+      <li><a href="" class="rss" target="_self"><i class="fa-solid fa-square-rss"></i></a></li>
+    </ul>
+  </div>
+  <!--Fin Barra Redes Sociales-->
+  <header>
+    <!--Titulo de pagina-->
+    <nav class="navbar navbar-light bg-dark min-vw-100">
+      <h2 class="p-3 text-white">Productos</h2>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link text-white" data-bs-toggle="modal" data-bs-target="#modal">
+            <i class="bi bi-cart mx-5" id="carritoContenedor">0</i>
+          </a>
+          <!--Boton que permite volver a la pagina principal donde estan los productos-->
+          <a class="text-white" href="index.html">Volver</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <button id="activarFuncion" class="btn btn-secondary boton mt-2"></button>
+
+  <main>
+    <!--Se ingresan los datos del Cliente que realiz la compra-->
+    <div class="container">
+      <div class="row m-3 ">
+        <div class="col">
+          <h3 class="d-flex justify-content-center">Realizar Compra</h3>
+          <form id="procesar-pago" method="POST">
+            <div class="form-group row">
+              <label for="cliente" class="col-12 col-md-2  col-form-label"></label>
+              <div class="col-12 col-md-12">
+                <input type="text" class="form-control" id="cliente" placeholder="Ingresa tu nombre" name="cliente">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="email" class="col-12 col-md-2 col-form-label"></label>
+              <div class="col-12 col-md-12">
+                <input type="text" id="correo" class="form-control" placeholder="Ingresa tu mail" name="email.id"
+                  id="email.id">
+              </div>
+            </div>
+            <!--Cuerpor de la tabla que recibe los datos del Carrito-->
+            <div id="carrito" class="form-group table-responsive">
+              <table class="table text-center mt-4 bg-dark text-white-50" id="lista-compra">
+                <thead>
+                  <tr>
+                    <th scope="col">Imagen</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Sub Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+                <tr>
+                  <th display="flex" colspan="6" scope="col" class="text-rigth">TOTAL$
+                    <p id="totalProceso"></p>
+                  </th>
+                </tr>
+
+              </table>
+            </div>
+            <!--Incorporacion del spinner-->
+            <div class="d-none" id="spinner">
+              <div class="sk-folding-cube">
+                <div class="sk-cube1 sk-cube"></div>
+                <div class="sk-cube2 sk-cube"></div>
+                <div class="sk-cube4 sk-cube"></div>
+                <div class="sk-cube3 sk-cube"></div>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-md-4 mb-2">
+                <!--Permite volver a la pagina principal y seleccionar mas productos-->
+                <a href="index.html" class="btn btn-primary btn-block">Seguir comprando</a>
+              </div>
+              <div class="col-xs-12 col-md-2">
+                <input type="submit" class="btn btn-primary btn-block" id="button" value="Finalizar compra">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <ul id="bodyUsers">
+    </div>
+    <!--Visualizacion de datos a traves de Data.Json-->
+    <div class="container">
+      <ul id="postContainer"></ul>
+    </div>
+
+    <div class="container">
+      <h4 class="text-center"><span>Proba nuestras distintas variedades!</span></h4>
+      <ul class="text-center" id="bodyUsers">
+    </div>
+    <!------------------------------------------------>
+  </main>
+  <!--Inicio Footer-->
+  <footer class="bg-dark text-white pt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 text-center">
+          <h2>Puntos de Venta</h2>
+          <hr>
+          <ul class="list-unstyled text-secondary text-center">
+            <li>San Miguel de Tucuman</li>
+            <li>Yerba Buena</li>
+            <li>Tafi Viejo</li>
+            <li>Nuevos</li>
+          </ul>
+        </div>
+        <div class="col-md-3 text-center">
+          <h2>Variedades</h2>
+          <hr>
+          <ul class="list-unstyled text-secondary text-center">
+            <li>Ternera</li>
+            <li>Clasico</li>
+            <li>Verdura</li>
+            <li>Calabaza</li>
+            <li>Gourmet</li>
+          </ul>
+        </div>
+        <div class="col-md-3 text-center">
+          <h2>Contacto</h2>
+          <hr>
+          <ul class="list-unstyled text-secondary text-center">
+            <li>Consulta</li>
+            <li>Sumate</li>
+            <li>Preguntas Frecuentes</li>
+            <li>Tips</li>
+          </ul>
+        </div>
+        <div class="col-md-3 text-center">
+          <h2 class="text-md-end">PECO<span class="text-primary">RINO</span> </h2>
+          <ul class="list-unstyled text-secondary text-md-end mt-4">
+            <li>SORRENTINOS ARTESANALES</li>
+            <li>Envíos a domicilio</li>
+            <li>Ma. a Sab 11hs - 14hs y 20hs - 21hs</li>
+            <li>Tucuman, Argentina.</li>
+          </ul>
+        </div>
+      </div>
+      <hr>
+      <!--Redes Sociales-->
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <h2>Por Pedidos Wp</h2>
+          <h1 class="text-primary">3815954455</h1>
+        </div>
+        <div class="col-md-4 d-flex flex-column justify-content-center align-items-center">
+          <p class="bg-primary py-2 px-3">Seguinos</p>
+          <div>
+            <a href="https://www.facebook.com/profile.php?id=100062210267215" class="facebook" target="_blank"><i
+                class="fa-brands fa-2x me-2 fa-facebook text-white"></i></a>
+            <a href="https://www.instagram.com/pecorino.tuc/?hl=es" class="instagram" target="_blank"><i
+                class="fa-brands fa-2x me-2 fa-instagram text-white"></i></a>
+            <a href="https://api.whatsapp.com/send/?phone=5493813306782&text&type=phone_number&app_absent=0"
+              class="whatsapp" target="_blank"><i class="fa-brands fa-2x me-2 fa-whatsapp text-white"></i></a>
+          </div>
+        </div>
+        <div class="col-md-4 pb-4 pt-4">
+          <img class="img-fluid"
+            src="https://res.cloudinary.com/marievillagran/image/upload/v1664143157/Proyecto/forma-pago2_lkefnt.png"
+            alt="">
+        </div>
+      </div>
+    </div>
+    <!--Copyrigth-->
+    <div class="copyright bg-primary py-3 text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <small>&copy; 2022 PROJECT MARIE VILLAGRAN - ALL RIGHT RECEIVED</small>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <small>USER LICENCE AGREMENT | PRIVACY POLICY | TERMS & CONDITION</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!--Fin Footer-->
+
+  <!--CDN JQUERY-->
+  <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+    crossorigin="anonymous"></script>
+  <!--CDN JS-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script src="app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
+</html>
