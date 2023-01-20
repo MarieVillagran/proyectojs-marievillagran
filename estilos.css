@@ -37,7 +37,7 @@ body {
   padding: 0;
 }
 
-/*
+
 a {
     text-decoration: none;
 }
@@ -45,7 +45,11 @@ a {
 #activarFuncion {
     opacity: 0;
 }
- */
+
+ul {
+  list-style: none;
+}
+
 /*---------------------Scroll--------------------*/
 ::-webkit-scrollbar {
   width: 1rem;
